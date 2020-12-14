@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/api/v1")
 public class UsuarioController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class UsuarioController {
         return usuarioService.getUsuarioByEmail(email);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/usuario")
     public UsuarioModel updateUsuario(@RequestBody UsuarioModel usuario){
         return usuarioService.updateUsuario(usuario);
     }
