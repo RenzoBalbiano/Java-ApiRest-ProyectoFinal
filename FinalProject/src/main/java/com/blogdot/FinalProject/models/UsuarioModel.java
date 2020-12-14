@@ -1,14 +1,13 @@
 package com.blogdot.FinalProject.models;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "usuario")
@@ -29,9 +28,7 @@ public class UsuarioModel {
     @Column(name = "password", nullable = false)
     private String password; 
 
-    @JsonFormat(pattern = "dd-MM-YYYY", shape = Shape.STRING)
-    @Column(name= "fecha_creacion")
-    private String fechaDeCreacion;
+    private Date fechaDeCreacion;
 
     private String ciudad;
     private String provincia;
@@ -77,11 +74,11 @@ public class UsuarioModel {
         this.password = password;
     }
 
-    public String getFechaDeCreacion() {
+    public Date getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(String fechaDeCreacion) {
+    public void setFechaDeCreacion(Date fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
