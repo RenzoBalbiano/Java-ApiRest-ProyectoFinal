@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 
 
 @Entity
@@ -23,10 +27,11 @@ public class ComentarioModel {
     //(relación con Usuario)
     private String autor;
 
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime fechaDeCreacion;
 
     @Column(name = "comentario", length=200)
-    
     private String comentario;
 
     public Long getId() {

@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -33,6 +35,7 @@ public class UsuarioModel {
     private String email;
 
     //se almacenará pero no deberá ser mostrado
+
     
     @Column(name = "password", nullable = false)
     private String password; 
@@ -81,6 +84,8 @@ public class UsuarioModel {
         this.email = email;
     }
     
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }
