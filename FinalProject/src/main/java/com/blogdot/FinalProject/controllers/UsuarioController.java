@@ -36,7 +36,7 @@ public class UsuarioController {
     }
     @GetMapping()
     public ArrayList<UsuarioModel> obtenerUsuarios(){
-        return usuarioService.obtenerUsuarios();
+        return usuarioService.obtenerTodosUsuarios();
     }
     @GetMapping(path = "/{id}")
     public Optional<UsuarioModel> obtenerUsuarioPorId(@PathVariable("id") Long id) {

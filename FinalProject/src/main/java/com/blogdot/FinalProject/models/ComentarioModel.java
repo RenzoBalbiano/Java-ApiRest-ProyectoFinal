@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Envios")
+@Table(name = "Comentarios")
 public class ComentarioModel {
 
     @Id
@@ -44,9 +44,7 @@ public class ComentarioModel {
     public void setAutor(String autor) {
         this.autor = autor;
     }
-
     
-
     public String getComentario() {
         return comentario;
     }

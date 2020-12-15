@@ -1,7 +1,6 @@
 package com.blogdot.FinalProject.models;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "Envios")
+@Table(name = "Posteos")
 public class PostModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +21,7 @@ public class PostModel {
     private String descripcion;
 
     @Lob
-    @Column(updatable = true, name="contenido", nullable = false, columnDefinition = "varchar(max)")
+    @Column(updatable = true, name="contenido", nullable = false)
     private String contenido;
 
     private LocalDateTime fechaDeCreacion;
@@ -64,8 +62,6 @@ public class PostModel {
     public void setContenido(String contenido) {
         this.contenido = contenido;
     }
-
-    
 
     public String getAutor() {
         return autor;
