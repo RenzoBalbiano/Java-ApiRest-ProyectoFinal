@@ -1,5 +1,6 @@
 package com.blogdot.FinalProject.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,15 @@ public class UsuarioService {
     public List <UsuarioModel> buscar(String ciudad) throws Exception{
         try{
             List <UsuarioModel> usuarios = usuarioRepository.findByCiudad(ciudad);
+            return usuarios;
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List <UsuarioModel> buscarPorFecha(LocalDateTime fecha) throws Exception{
+        try{
+            List <UsuarioModel> usuarios = usuarioRepository.findByFechaDeCreacionAfter(fecha);
             return usuarios;
         }catch(Exception e){
             throw new Exception(e.getMessage());

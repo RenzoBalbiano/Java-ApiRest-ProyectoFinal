@@ -9,20 +9,21 @@ import com.blogdot.FinalProject.models.UsuarioModel;
 import com.blogdot.FinalProject.services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -45,7 +46,7 @@ public class UsuarioController {
     public UsuarioModel findUsuarioByEmail(@PathVariable String email){
         return usuarioService.getUsuarioByEmail(email);
     }
-    @GetMapping("/usuario")
+    @GetMapping("/residencia")
     public ResponseEntity<?> buscarCiudad(@RequestParam String ciudad){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscar(ciudad));
@@ -53,11 +54,21 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
-
-    @PutMapping("/usuario")
+    @GetMapping("/creacion")
+    public ResponseEntity<?> buscarFechaPosterior(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime fecha){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorFecha(fecha));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+    //Arreglar esta petición.
+    /*
+    @PutMapping("/{userId}")
     public UsuarioModel updateUsuario(@RequestBody UsuarioModel usuario){
         return usuarioService.updateUsuario(usuario);
     }
+    */
 
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){
