@@ -1,5 +1,7 @@
 package com.blogdot.FinalProject.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "Envios")
@@ -26,9 +26,7 @@ public class PostModel {
     @Column(updatable = true, name="contenido", nullable = false, columnDefinition = "varchar(max)")
     private String contenido;
 
-    @JsonFormat(pattern = "dd-MM-YYYY", shape = Shape.STRING)
-    @Column(name= "fecha_creacion")
-    private String fechaDeCreacion;
+    private LocalDateTime fechaDeCreacion;
 
     //(relación con Usuario. No existen coautores)
     private String autor;
@@ -67,13 +65,7 @@ public class PostModel {
         this.contenido = contenido;
     }
 
-    public String getFechaDeCreacion() {
-        return fechaDeCreacion;
-    }
-
-    public void setFechaDeCreacion(String fechaDeCreacion) {
-        this.fechaDeCreacion = fechaDeCreacion;
-    }
+    
 
     public String getAutor() {
         return autor;
@@ -89,5 +81,13 @@ public class PostModel {
 
     public void setPublicado(boolean publicado) {
         this.publicado = publicado;
+    }
+
+    public LocalDateTime getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
     }
 }

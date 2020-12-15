@@ -1,6 +1,6 @@
 package com.blogdot.FinalProject.models;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
@@ -27,11 +26,11 @@ public class UsuarioModel {
     private String email;
 
     //se almacenará pero no deberá ser mostrado
-    @JsonIgnore
+    
     @Column(name = "password", nullable = false)
     private String password; 
 
-    private Date fechaDeCreacion;
+    private LocalDateTime fechaDeCreacion;
 
     private String ciudad;
     private String provincia;
@@ -68,21 +67,13 @@ public class UsuarioModel {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getFechaDeCreacion() {
-        return fechaDeCreacion;
-    }
-
-    public void setFechaDeCreacion(Date fechaDeCreacion) {
-        this.fechaDeCreacion = fechaDeCreacion;
     }
 
     public String getCiudad() {
@@ -108,5 +99,14 @@ public class UsuarioModel {
     public void setPais(String pais) {
         this.pais = pais;
     }
-    
+
+    public LocalDateTime getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
+    }
 }
+
+    

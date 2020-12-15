@@ -1,6 +1,7 @@
 package com.blogdot.FinalProject.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.blogdot.FinalProject.models.UsuarioModel;
@@ -27,7 +28,16 @@ public class UsuarioService {
     }
     public UsuarioModel getUsuarioByEmail(String email) {
         return usuarioRepository.findByEmail(email);
-	}
+    }
+    
+    public List <UsuarioModel> buscar(String ciudad) throws Exception{
+        try{
+            List <UsuarioModel> usuarios = usuarioRepository.findByCiudad(ciudad);
+            return usuarios;
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 
     public UsuarioModel updateUsuario(UsuarioModel usuario){
         UsuarioModel usuarioExistente = usuarioRepository.findById(usuario.getId()).orElse(null);

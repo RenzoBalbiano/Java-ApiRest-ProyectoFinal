@@ -1,5 +1,7 @@
 package com.blogdot.FinalProject.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,8 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 
 @Entity
 @Table(name = "Envios")
@@ -22,9 +23,7 @@ public class ComentarioModel {
     //(relación con Usuario)
     private String autor;
 
-    @JsonFormat(pattern = "dd-MM-YYYY", shape = Shape.STRING)
-    @Column(name= "fecha_creacion")
-    private String fechaDeCreacion;
+    private LocalDateTime fechaDeCreacion;
 
     @Column(name = "comentario", length=200)
     
@@ -46,13 +45,7 @@ public class ComentarioModel {
         this.autor = autor;
     }
 
-    public String getFechaDeCreacion() {
-        return fechaDeCreacion;
-    }
-
-    public void setFechaDeCreacion(String fechaDeCreacion) {
-        this.fechaDeCreacion = fechaDeCreacion;
-    }
+    
 
     public String getComentario() {
         return comentario;
@@ -60,5 +53,13 @@ public class ComentarioModel {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public LocalDateTime getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
     }
 }
