@@ -52,6 +52,10 @@ public class UsuarioModel {
     @OneToMany
     private List<PostModel> posts = new ArrayList<>();
 
+    //(mappedBy = "Posteos")
+    @OneToMany
+    private List<ComentarioModel> comentarios = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -129,6 +133,10 @@ public class UsuarioModel {
     public void agregarPost(PostModel post){
         this.posts.add(post);
         post.setAuthor(this);
+    }
+    public void agregarComentario(ComentarioModel comentario){
+        this.comentarios.add(comentario);
+        comentario.setAuthor_comentario(this);
     }
 }
 

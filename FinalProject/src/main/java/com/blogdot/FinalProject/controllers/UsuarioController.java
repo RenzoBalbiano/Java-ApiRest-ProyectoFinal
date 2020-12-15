@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.blogdot.FinalProject.models.ComentarioModel;
 import com.blogdot.FinalProject.models.PostModel;
 import com.blogdot.FinalProject.models.UsuarioModel;
 import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
+import com.blogdot.FinalProject.services.ComentarioService;
 import com.blogdot.FinalProject.services.PostService;
 import com.blogdot.FinalProject.services.UsuarioService;
 
@@ -35,9 +37,10 @@ public class UsuarioController {
     PostService postService;
 
     @Autowired
+    ComentarioService comentarioService;
+
+    @Autowired
     OtroUsuarioRepository otroUsuarioRepository;
-
-
 
     @PostMapping()
     public UsuarioModel guardarUsuario(@RequestBody UsuarioModel usuario) {
@@ -50,6 +53,13 @@ public class UsuarioController {
         usuario.agregarPost(post);
         post.setFechaDeCreacion(LocalDateTime.now());
         return this.postService.guardarPost(post);
+    }
+    @PostMapping("/{id_user}/comentario")
+    public ComentarioModel crearComentarioDadoUsuario(@PathVariable Long id_user,@RequestBody ComentarioModel comentario) {
+        UsuarioModel usuario = otroUsuarioRepository.getOne(id_user);
+        usuario.agregarComentario(comentario);
+        comentario.setFechaDeCreacion(LocalDateTime.now());
+        return this.comentarioService.guardarComentario(comentario);
     }
     @GetMapping()
     public ArrayList<UsuarioModel> obtenerUsuarios(){

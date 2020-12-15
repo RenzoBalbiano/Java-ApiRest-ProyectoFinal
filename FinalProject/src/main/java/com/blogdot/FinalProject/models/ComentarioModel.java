@@ -2,11 +2,14 @@ package com.blogdot.FinalProject.models;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -24,16 +27,16 @@ public class ComentarioModel {
     @Column(unique = true,nullable = false)
     private Long id;
 
-    //(relación con Usuario)
-    private String autor;
-
     @CreationTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime fechaDeCreacion;
 
     @Column(name = "comentario", length=200)
-    
     private String comentario;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_comentario",referencedColumnName = "id")
+    private UsuarioModel author_comentario;
 
     public Long getId() {
         return id;
@@ -41,14 +44,6 @@ public class ComentarioModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
     }
     
     public String getComentario() {
@@ -65,5 +60,13 @@ public class ComentarioModel {
 
     public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
+    }
+
+    public UsuarioModel getAuthor_comentario() {
+        return author_comentario;
+    }
+
+    public void setAuthor_comentario(UsuarioModel author_comentario) {
+        this.author_comentario = author_comentario;
     }
 }

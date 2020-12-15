@@ -24,7 +24,7 @@ public class PostController {
     PostService postService;
 
     @PostMapping()
-    public PostModel guardarUsuario(@RequestBody PostModel post) {
+    public PostModel guardarNuevoPost(@RequestBody PostModel post) {
         post.setFechaDeCreacion(LocalDateTime.now());
         return this.postService.guardarPost(post);
     }
