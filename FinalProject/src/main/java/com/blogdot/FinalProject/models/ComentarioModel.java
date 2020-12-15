@@ -32,6 +32,7 @@ public class ComentarioModel {
     private LocalDateTime fechaDeCreacion;
 
     @Column(name = "comentario", length=200)
+    
     private String comentario;
 
     public Long getId() {

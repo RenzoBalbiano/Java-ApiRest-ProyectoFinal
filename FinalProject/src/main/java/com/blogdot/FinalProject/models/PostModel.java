@@ -38,9 +38,6 @@ public class PostModel {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime fechaDeCreacion;
 
-    //(relación con Usuario. No existen coautores)
-    private String autor;
-
     private boolean publicado;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -77,14 +74,6 @@ public class PostModel {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
     }
 
     public boolean isPublicado() {
