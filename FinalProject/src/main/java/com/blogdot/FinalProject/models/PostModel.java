@@ -13,6 +13,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -30,6 +34,8 @@ public class PostModel {
     @Column(updatable = true, name="contenido", nullable = false)
     private String contenido;
 
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime fechaDeCreacion;
 
     //(relación con Usuario. No existen coautores)

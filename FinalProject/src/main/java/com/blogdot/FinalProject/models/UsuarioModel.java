@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 
 @Entity
 @Table(name = "usuario")
@@ -25,7 +29,7 @@ public class UsuarioModel {
     private String nombre;
     private String apellido; 
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     //se almacenará pero no deberá ser mostrado
@@ -33,6 +37,8 @@ public class UsuarioModel {
     @Column(name = "password", nullable = false)
     private String password; 
 
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime fechaDeCreacion;
 
     private String ciudad;

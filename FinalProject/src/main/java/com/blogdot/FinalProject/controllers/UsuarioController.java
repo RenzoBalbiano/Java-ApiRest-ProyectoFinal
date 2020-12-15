@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,7 +73,7 @@ public class UsuarioController {
     }
     
     @GetMapping("/creacion/{date}")
-    public ResponseEntity<?> buscarFechaPosterior(@PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime fecha){
+    public ResponseEntity<?> buscarFechaPosterior(@RequestParam(value = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDateTime fecha){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorFecha(fecha));
         }catch(Exception e){
@@ -80,20 +81,20 @@ public class UsuarioController {
         }
     }
     
-    /*
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioModel usuario, @PathVariable Long id){
-        try {
-            UsuarioModel usuarioExistente = usuarioService.getUsuario(id);
-            usuario.setId(id);
-            usuarioService.updateUsuario(usuario);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(NoSuchElementException e){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-    }
-    */
     
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUsuario(@PathVariable(value = "id") Long id,@RequestBody UsuarioModel usuario){
+
+        UsuarioModel usuarioEditado = otroUsuarioRepository.getOne(id);
+        usuarioEditado.setNombre(usuario.getNombre());
+        usuarioEditado.setApellido(usuario.getApellido());
+        usuarioEditado.setEmail(usuario.getEmail());
+        usuarioEditado.setPassword(usuario.getPassword());
+        usuarioEditado.setCiudad(usuario.getCiudad());
+        usuarioEditado.setProvincia(usuario.getProvincia());
+        usuarioEditado.setPais(usuario.getPais());
+        return new ResponseEntity<>(otroUsuarioRepository.save(usuarioEditado), HttpStatus.OK);
+    }    
 
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){

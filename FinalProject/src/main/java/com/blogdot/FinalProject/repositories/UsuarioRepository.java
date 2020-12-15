@@ -20,3 +20,4 @@ public interface UsuarioRepository extends CrudRepository<UsuarioModel, Long> {
 	List<UsuarioModel> findByFechaDeCreacion(LocalDateTime fechaDeCreacion);
 
 }
+//
