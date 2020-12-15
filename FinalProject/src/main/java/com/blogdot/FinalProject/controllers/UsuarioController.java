@@ -2,10 +2,12 @@ package com.blogdot.FinalProject.controllers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.Optional;
 
+import com.blogdot.FinalProject.models.PostModel;
 import com.blogdot.FinalProject.models.UsuarioModel;
+import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
+import com.blogdot.FinalProject.services.PostService;
 import com.blogdot.FinalProject.services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,10 +30,25 @@ public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
 
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    OtroUsuarioRepository otroUsuarioRepository;
+
+
+
     @PostMapping()
     public UsuarioModel guardarUsuario(@RequestBody UsuarioModel usuario) {
         usuario.setFechaDeCreacion(LocalDateTime.now());
         return this.usuarioService.guardarUsuario(usuario);
+    }
+    @PostMapping("/{id_user}/post")
+    public PostModel crearPostDadoUsuario(@PathVariable Long id_user,@RequestBody PostModel post) {
+        UsuarioModel usuario = otroUsuarioRepository.getOne(id_user);
+        usuario.agregarPost(post);
+        post.setFechaDeCreacion(LocalDateTime.now());
+        return this.postService.guardarPost(post);
     }
     @GetMapping()
     public ArrayList<UsuarioModel> obtenerUsuarios(){
@@ -54,21 +70,30 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
-    @GetMapping("/creacion")
-    public ResponseEntity<?> buscarFechaPosterior(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime fecha){
+    
+    @GetMapping("/creacion/{date}")
+    public ResponseEntity<?> buscarFechaPosterior(@PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime fecha){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorFecha(fecha));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
-    //Arreglar esta petición.
+    
     /*
-    @PutMapping("/{userId}")
-    public UsuarioModel updateUsuario(@RequestBody UsuarioModel usuario){
-        return usuarioService.updateUsuario(usuario);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioModel usuario, @PathVariable Long id){
+        try {
+            UsuarioModel usuarioExistente = usuarioService.getUsuario(id);
+            usuario.setId(id);
+            usuarioService.updateUsuario(usuario);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
     */
+    
 
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){

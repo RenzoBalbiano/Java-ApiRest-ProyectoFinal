@@ -17,5 +17,6 @@ public interface UsuarioRepository extends CrudRepository<UsuarioModel, Long> {
 
 	List<UsuarioModel> findByCiudad(String ciudad);
 
-	List<UsuarioModel> findByFechaDeCreacionAfter(LocalDateTime fecha);
+	List<UsuarioModel> findByFechaDeCreacion(LocalDateTime fechaDeCreacion);
+
 }

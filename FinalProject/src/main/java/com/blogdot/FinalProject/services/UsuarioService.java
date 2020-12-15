@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.blogdot.FinalProject.models.UsuarioModel;
+import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
 import com.blogdot.FinalProject.repositories.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository; 
+
+    @Autowired
+    OtroUsuarioRepository otroUsuarioRepository; 
     
     public UsuarioModel guardarUsuario(UsuarioModel usuario) {
         return usuarioRepository.save(usuario);
@@ -42,13 +46,14 @@ public class UsuarioService {
 
     public List <UsuarioModel> buscarPorFecha(LocalDateTime fecha) throws Exception{
         try{
-            List <UsuarioModel> usuarios = usuarioRepository.findByFechaDeCreacionAfter(fecha);
+            List <UsuarioModel> usuarios = usuarioRepository.findByFechaDeCreacion(fecha);
             return usuarios;
         }catch(Exception e){
             throw new Exception(e.getMessage());
         }
     }
-
+    //
+    /*
     public UsuarioModel updateUsuario(UsuarioModel usuario){
         UsuarioModel usuarioExistente = usuarioRepository.findById(usuario.getId()).orElse(null);
         usuarioExistente.setNombre(usuario.getNombre());
@@ -61,7 +66,7 @@ public class UsuarioService {
         usuarioExistente.setPais(usuario.getPais());
         return usuarioRepository.save(usuarioExistente);
     }
-
+    */
     public boolean eliminarUsuario(Long id){
         try{
             usuarioRepository.deleteById(id);
@@ -71,4 +76,7 @@ public class UsuarioService {
         }
     }
 
+	public Optional<UsuarioModel> getUsuario(Long id) {
+        return usuarioRepository.findById(id);
+	}	
 }

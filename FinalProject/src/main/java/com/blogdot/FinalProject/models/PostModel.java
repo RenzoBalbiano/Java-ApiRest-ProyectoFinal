@@ -1,13 +1,19 @@
 package com.blogdot.FinalProject.models;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Posteos")
@@ -30,6 +36,10 @@ public class PostModel {
     private String autor;
 
     private boolean publicado;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author",referencedColumnName = "id")
+    private UsuarioModel author;
 
     public Long getId() {
         return id;
@@ -85,5 +95,14 @@ public class PostModel {
 
     public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
+    }
+
+    //@JsonIgnore
+    public UsuarioModel getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UsuarioModel author) {
+        this.author = author;
     }
 }
