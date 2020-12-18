@@ -1,17 +1,16 @@
 package com.blogdot.FinalProject.controllers;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-import com.blogdot.FinalProject.models.ComentarioModel;
 import com.blogdot.FinalProject.models.PostModel;
 import com.blogdot.FinalProject.models.UsuarioModel;
 import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
+import com.blogdot.FinalProject.repositories.PostRepository;
 import com.blogdot.FinalProject.services.ComentarioService;
 import com.blogdot.FinalProject.services.PostService;
 import com.blogdot.FinalProject.services.UsuarioService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -42,26 +41,32 @@ public class UsuarioController {
     @Autowired
     OtroUsuarioRepository otroUsuarioRepository;
 
+    @Autowired
+    PostRepository postRepository;
+
+    /*
     @PostMapping()
     public UsuarioModel guardarUsuario(@RequestBody UsuarioModel usuario) {
-        usuario.setFechaDeCreacion(LocalDateTime.now());
+        usuario.setFechaDeCreacion(LocalDate.now());
         return this.usuarioService.guardarUsuario(usuario);
     }
+    */
+
+    @PostMapping()
+    public ResponseEntity<?> guardarUsuario(@RequestBody UsuarioModel usuario) {
+        
+        return new ResponseEntity<>(usuarioService.guardarUsuario(usuario),HttpStatus.CREATED); 
+    }
+
     @PostMapping("/{id_user}/post")
     public PostModel crearPostDadoUsuario(@PathVariable Long id_user,@RequestBody PostModel post) {
         UsuarioModel usuario = otroUsuarioRepository.getOne(id_user);
         usuario.agregarPost(post);
-        post.setFechaDeCreacion(LocalDateTime.now());
+        post.setFechaDeCreacion(LocalDate.now());
         return this.postService.guardarPost(post);
     }
-    @PostMapping("/{id_user}/comentario")
-    public ComentarioModel crearComentarioDadoUsuario(@PathVariable Long id_user,@RequestBody ComentarioModel comentario) {
-        UsuarioModel usuario = otroUsuarioRepository.getOne(id_user);
-        usuario.agregarComentario(comentario);
-        comentario.setFechaDeCreacion(LocalDateTime.now());
-        return this.comentarioService.guardarComentario(comentario);
-    }
-    @GetMapping()
+   
+    @GetMapping()//
     public ArrayList<UsuarioModel> obtenerUsuarios(){
         return usuarioService.obtenerTodosUsuarios();
     }
@@ -82,30 +87,57 @@ public class UsuarioController {
         }
     }
     
-    @GetMapping("/creacion/{date}")
-    public ResponseEntity<?> buscarFechaPosterior(@RequestParam(value = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDateTime fecha){
+    @GetMapping("/creacion")
+    public ResponseEntity<?> buscarFechaPosterior(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha){
+  
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorFecha(fecha));
+      
+            List <UsuarioModel> usuarios = otroUsuarioRepository.findByFechaDeCreacionAfter(fecha);
+            System.out.println("Entró al método e hizo la lista");
+            return ResponseEntity.status(HttpStatus.OK).body(usuarios);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
-    
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUsuario(@PathVariable(value = "id") Long id,@RequestBody UsuarioModel usuario){
 
-        UsuarioModel usuarioEditado = otroUsuarioRepository.getOne(id);
-        usuarioEditado.setNombre(usuario.getNombre());
-        usuarioEditado.setApellido(usuario.getApellido());
-        usuarioEditado.setEmail(usuario.getEmail());
-        usuarioEditado.setPassword(usuario.getPassword());
-        usuarioEditado.setCiudad(usuario.getCiudad());
-        usuarioEditado.setProvincia(usuario.getProvincia());
-        usuarioEditado.setPais(usuario.getPais());
-        return new ResponseEntity<>(otroUsuarioRepository.save(usuarioEditado), HttpStatus.OK);
+    @PutMapping(path = "/{usuarioId}")
+    public ResponseEntity<?> updateUsuario(@PathVariable("usuarioId") Long usuarioId,@RequestBody UsuarioModel usuario){
+
+        System.out.println("Entró al método");
+
+        if(usuario != null){ 
+            System.out.println(usuario.toString());
+            System.out.println(usuarioId);
+        }else{System.out.println("null");
+        }
+
+        UsuarioModel usuarioExistente = otroUsuarioRepository.findById(usuarioId).get();;
+        usuarioExistente.setNombre(usuario.getNombre());
+        usuarioExistente.setApellido(usuario.getApellido());
+        usuarioExistente.setEmail(usuario.getEmail());
+        usuarioExistente.setCiudad(usuario.getCiudad());
+        usuarioExistente.setProvincia(usuario.getProvincia());
+        usuarioExistente.setPais(usuario.getPais());
+        
+        return new ResponseEntity<>(otroUsuarioRepository.save(usuario), HttpStatus.OK);
     }    
+    /*
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<?> updateUsuario(@PathVariable Long usuarioId, @RequestBody UsuarioModel usuario){
 
+        UsuarioModel usuarioAdaptado = usuarioService.getUno(usuarioId);
+        usuarioAdaptado.setNombre(usuario.getNombre());
+        usuarioAdaptado.setApellido(usuario.getApellido());
+        usuarioAdaptado.setEmail(usuario.getEmail());
+        usuarioAdaptado.setPassword(usuario.getPassword());
+        usuarioAdaptado.setCiudad(usuario.getPais());
+        usuarioAdaptado.setProvincia(usuario.getProvincia());
+        usuarioAdaptado.setPais(usuario.getPais());
+
+        return new ResponseEntity<>(usuarioService.actualizarUsuario(usuarioAdaptado),HttpStatus.OK);
+    }
+    */
+//
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){
         boolean ok = this.usuarioService.eliminarUsuario(id);

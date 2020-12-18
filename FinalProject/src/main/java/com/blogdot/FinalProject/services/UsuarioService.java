@@ -1,14 +1,12 @@
 package com.blogdot.FinalProject.services;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.blogdot.FinalProject.DTO.UsuarioDto;
 import com.blogdot.FinalProject.models.UsuarioModel;
 import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
 import com.blogdot.FinalProject.repositories.UsuarioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +16,11 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository; 
 
-    @Autowired
-    OtroUsuarioRepository otroUsuarioRepository; 
+    OtroUsuarioRepository otroUsuarioRepository;
     
-    public UsuarioModel guardarUsuario(UsuarioModel usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioDto guardarUsuario(UsuarioModel usuario) {
+        
+        return new UsuarioDto(usuarioRepository.save(usuario));
     }
     
     public ArrayList<UsuarioModel> obtenerTodosUsuarios() {
@@ -44,29 +42,6 @@ public class UsuarioService {
         }
     }
 
-    public List <UsuarioModel> buscarPorFecha(LocalDateTime fecha) throws Exception{
-        try{
-            List <UsuarioModel> usuarios = usuarioRepository.findByFechaDeCreacion(fecha);
-            return usuarios;
-        }catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
-    }
-    //
-    /*
-    public UsuarioModel updateUsuario(UsuarioModel usuario){
-        UsuarioModel usuarioExistente = usuarioRepository.findById(usuario.getId()).orElse(null);
-        usuarioExistente.setNombre(usuario.getNombre());
-        usuarioExistente.setApellido(usuario.getApellido());
-        usuarioExistente.setEmail(usuario.getEmail());
-        usuarioExistente.setPassword(usuario.getPassword());
-        usuarioExistente.setFechaDeCreacion(usuario.getFechaDeCreacion());
-        usuarioExistente.setCiudad(usuario.getCiudad());
-        usuarioExistente.setProvincia(usuario.getProvincia());
-        usuarioExistente.setPais(usuario.getPais());
-        return usuarioRepository.save(usuarioExistente);
-    }
-    */
     public boolean eliminarUsuario(Long id){
         try{
             usuarioRepository.deleteById(id);
@@ -78,5 +53,15 @@ public class UsuarioService {
 
 	public Optional<UsuarioModel> getUsuario(Long id) {
         return usuarioRepository.findById(id);
+	}
+
+	public UsuarioModel getUno(Long usuarioId) {
+        
+        return otroUsuarioRepository.getOne(usuarioId);
+	}
+
+	public UsuarioDto actualizarUsuario(UsuarioModel usuarioAdaptado) {
+        
+        return new UsuarioDto(otroUsuarioRepository.save(usuarioAdaptado));
 	}	
 }

@@ -1,6 +1,6 @@
 package com.blogdot.FinalProject.controllers;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.blogdot.FinalProject.models.ComentarioModel;
@@ -24,13 +24,19 @@ public class ComentarioController {
 
     @PostMapping()
     public ComentarioModel guardarUsuario(@RequestBody ComentarioModel comentario) {
-        comentario.setFechaDeCreacion(LocalDateTime.now());
+        comentario.setFechaDeCreacion(LocalDate.now());
         return this.comentarioService.guardarComentario(comentario);
-    }
+    }  
+
     @GetMapping()
     public ArrayList<ComentarioModel> obtenerPosteos(){
         return comentarioService.obtenerTodosLosComentarios();
     }
+    /*
+    CONSULTA - OBTENER TODOS LOS COMENTARIOS DE UN POST, CON LA OPCIÓN DE PASAR EL LIMITE DE COMENTARIOS DESEADOS COMO MÁXIMO.
+    IDEM A #2. SI NO LE PASO EL LIMITE TRAE TODOS. SI LE PASO 3, ME TRAERÁ LOS 3 COMENTARIOS MÁS NUEVO SOLAMENTE.
+    */
+
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){
         boolean ok = this.comentarioService.eliminarComentario(id);

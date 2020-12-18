@@ -1,9 +1,8 @@
 package com.blogdot.FinalProject.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,13 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.hibernate.annotations.CreationTimestamp;
-
+//import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "usuario")
@@ -34,15 +29,12 @@ public class UsuarioModel {
     @Column(nullable = false, unique = true)
     private String email;
 
-    //se almacenará pero no deberá ser mostrado
-
-    
     @Column(name = "password", nullable = false)
     private String password; 
 
-    @CreationTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime fechaDeCreacion;
+    //@CreationTimestamp
+    //@JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fechaDeCreacion = LocalDate.now();
 
     private String ciudad;
     private String provincia;
@@ -51,10 +43,6 @@ public class UsuarioModel {
     //(mappedBy = "Posteos")
     @OneToMany
     private List<PostModel> posts = new ArrayList<>();
-
-    //(mappedBy = "Posteos")
-    @OneToMany
-    private List<ComentarioModel> comentarios = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -122,11 +110,11 @@ public class UsuarioModel {
         this.pais = pais;
     }
 
-    public LocalDateTime getFechaDeCreacion() {
+    public LocalDate getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+    public void setFechaDeCreacion(LocalDate fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
@@ -134,10 +122,21 @@ public class UsuarioModel {
         this.posts.add(post);
         post.setAuthor(this);
     }
-    public void agregarComentario(ComentarioModel comentario){
-        this.comentarios.add(comentario);
-        comentario.setAuthor_comentario(this);
+
+    public List<PostModel> getPosts() {
+        return posts;
     }
+
+    public void setPosts(List<PostModel> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "UsuarioModel [apellido=" + apellido + ", ciudad=" + ciudad + ", email=" + email + ", fechaDeCreacion="
+                + fechaDeCreacion + ", id=" + id + ", nombre=" + nombre + ", pais=" + pais + ", password=" + password
+                + ", posts=" + posts + ", provincia=" + provincia + "]";
+    }    
 }
 
     

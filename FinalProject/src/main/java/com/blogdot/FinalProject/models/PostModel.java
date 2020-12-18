@@ -1,7 +1,8 @@
 package com.blogdot.FinalProject.models;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import org.hibernate.annotations.CreationTimestamp;
-
+//import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import org.hibernate.annotations.CreationTimestamp;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,12 +34,17 @@ public class PostModel {
     @Column(updatable = true, name="contenido", nullable = false)
     private String contenido;
 
-    @CreationTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime fechaDeCreacion;
+    //@CreationTimestamp
+    //@JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fechaDeCreacion;
 
     private boolean publicado;
 
+    //(mappedBy = "Posteos")
+    @OneToMany
+    private List<ComentarioModel> comentarios = new ArrayList<>();
+
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author",referencedColumnName = "id")
     private UsuarioModel author;
@@ -84,11 +89,11 @@ public class PostModel {
         this.publicado = publicado;
     }
 
-    public LocalDateTime getFechaDeCreacion() {
+    public LocalDate getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+    public void setFechaDeCreacion(LocalDate fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
@@ -100,4 +105,9 @@ public class PostModel {
     public void setAuthor(UsuarioModel author) {
         this.author = author;
     }
+
+    public void agregarComentario(ComentarioModel comentario){
+        this.comentarios.add(comentario);
+        comentario.setFK_Post(this);
+    }   
 }

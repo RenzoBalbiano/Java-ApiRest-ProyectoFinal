@@ -1,6 +1,6 @@
 package com.blogdot.FinalProject.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,9 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+//import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.hibernate.annotations.CreationTimestamp;
+//import org.hibernate.annotations.CreationTimestamp;
 
 
 
@@ -27,16 +28,20 @@ public class ComentarioModel {
     @Column(unique = true,nullable = false)
     private Long id;
 
-    @CreationTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime fechaDeCreacion;
+    //@CreationTimestamp
+    //@JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fechaDeCreacion;
 
     @Column(name = "comentario", length=200)
     private String comentario;
 
+    private String autor;
+
+    
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_comentario",referencedColumnName = "id")
-    private UsuarioModel author_comentario;
+    @JoinColumn(name = "FK_Post",referencedColumnName = "id")
+    @JsonIgnore
+    private PostModel FK_Post;
 
     public Long getId() {
         return id;
@@ -54,19 +59,27 @@ public class ComentarioModel {
         this.comentario = comentario;
     }
 
-    public LocalDateTime getFechaDeCreacion() {
+    public LocalDate getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(LocalDateTime fechaDeCreacion) {
+    public void setFechaDeCreacion(LocalDate fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
-    public UsuarioModel getAuthor_comentario() {
-        return author_comentario;
+    public PostModel getFK_Post() {
+        return FK_Post;
     }
 
-    public void setAuthor_comentario(UsuarioModel author_comentario) {
-        this.author_comentario = author_comentario;
+    public void setFK_Post(PostModel fK_Post) {
+        FK_Post = fK_Post;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 }
