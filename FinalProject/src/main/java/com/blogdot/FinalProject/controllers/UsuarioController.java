@@ -44,14 +44,6 @@ public class UsuarioController {
     @Autowired
     PostRepository postRepository;
 
-    /*
-    @PostMapping()
-    public UsuarioModel guardarUsuario(@RequestBody UsuarioModel usuario) {
-        usuario.setFechaDeCreacion(LocalDate.now());
-        return this.usuarioService.guardarUsuario(usuario);
-    }
-    */
-
     @PostMapping()
     public ResponseEntity<?> guardarUsuario(@RequestBody UsuarioModel usuario) {
         
@@ -121,23 +113,7 @@ public class UsuarioController {
         
         return new ResponseEntity<>(otroUsuarioRepository.save(usuario), HttpStatus.OK);
     }    
-    /*
-    @PutMapping("/{usuarioId}")
-    public ResponseEntity<?> updateUsuario(@PathVariable Long usuarioId, @RequestBody UsuarioModel usuario){
 
-        UsuarioModel usuarioAdaptado = usuarioService.getUno(usuarioId);
-        usuarioAdaptado.setNombre(usuario.getNombre());
-        usuarioAdaptado.setApellido(usuario.getApellido());
-        usuarioAdaptado.setEmail(usuario.getEmail());
-        usuarioAdaptado.setPassword(usuario.getPassword());
-        usuarioAdaptado.setCiudad(usuario.getPais());
-        usuarioAdaptado.setProvincia(usuario.getProvincia());
-        usuarioAdaptado.setPais(usuario.getPais());
-
-        return new ResponseEntity<>(usuarioService.actualizarUsuario(usuarioAdaptado),HttpStatus.OK);
-    }
-    */
-//
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){
         boolean ok = this.usuarioService.eliminarUsuario(id);

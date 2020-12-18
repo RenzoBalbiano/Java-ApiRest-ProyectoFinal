@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-//import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "usuario")
@@ -32,15 +31,12 @@ public class UsuarioModel {
     @Column(name = "password", nullable = false)
     private String password; 
 
-    //@CreationTimestamp
-    //@JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaDeCreacion = LocalDate.now();
 
     private String ciudad;
     private String provincia;
     private String pais;
 
-    //(mappedBy = "Posteos")
     @OneToMany
     private List<PostModel> posts = new ArrayList<>();
 

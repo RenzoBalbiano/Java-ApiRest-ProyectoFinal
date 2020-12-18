@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\":\"Julieta\",\r\n    \"apellido\":\"Muro\",\r\n    \"email\":\"correo@gmail.com\",\r\n    \"password\":\"holamanola\",\r\n    \"ciudad\":\"Resistencia\",\r\n    \"provincia\":\"Chaco\",\r\n    \"pais\":\"Argentina\"\r\n}",
+							"raw": "{\r\n    \"nombre\":\"Julia\",\r\n    \"apellido\":\"Muro\",\r\n    \"email\":\"correoelectroni@gmail.com\",\r\n    \"password\":\"holamanola\",\r\n    \"ciudad\":\"Resistencia\",\r\n    \"provincia\":\"Chaco\",\r\n    \"pais\":\"Argentina\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,7 +87,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/usuario/3",
+							"raw": "http://localhost:8080/api/v1/usuario/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -97,7 +97,7 @@
 								"api",
 								"v1",
 								"usuario",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -133,7 +133,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Flora\",\r\n    \"apellido\": \"Muro\",\r\n    \"email\": \"correo@gmail.com\",\r\n    \"password\": \"holamanola\",\r\n    \"ciudad\": \"Villa Berthet\",\r\n    \"provincia\": \"Chaco\",\r\n    \"pais\": \"Argentina\"\r\n}",
+							"raw": "{   \r\n    \"id\":1,\r\n    \"nombre\": \"Amanda\",\r\n    \"apellido\": \"Muro\",\r\n    \"email\": \"correo@gmail.com\",\r\n    \"fechaDeCreacion\": \"2020-12-18\",\r\n    \"password\": \"holamanola\",\r\n    \"ciudad\": \"Resistencia\",\r\n    \"provincia\": \"Chaco\",\r\n    \"pais\": \"Argentina\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -141,15 +141,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/v1/api/usuario/1",
+							"raw": "http://localhost:8080/api/v1/usuario/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"v1",
 								"api",
+								"v1",
 								"usuario",
 								"1"
 							]
@@ -191,7 +191,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/creacion?fecha=15-12-2020",
+							"raw": "http://localhost:8080/api/v1/usuario/creacion?fecha=2020-12-12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -200,20 +200,20 @@
 							"path": [
 								"api",
 								"v1",
+								"usuario",
 								"creacion"
 							],
 							"query": [
 								{
 									"key": "fecha",
-									"value": "15-12-2020"
+									"value": "2020-12-12"
 								}
 							]
 						}
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "PeticionesAlPost",
@@ -275,7 +275,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/post/3",
+							"raw": "http://localhost:8080/api/v1/post/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -285,7 +285,7 @@
 								"api",
 								"v1",
 								"post",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -298,7 +298,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"titulo\":\"Publicación de prueba\",\r\n    \"descripcion\":\"Prueba de creación de un post\",\r\n    \"contenido\":\"Este es un texto de prueba viejo\",\r\n    \"autor\":\"Pedro\",\r\n    \"publicado\":\"true\"\r\n}",
+							"raw": "{\r\n    \"titulo\":\"Publicación de prueba\",\r\n    \"descripcion\":\"Prueba de creación de un post\",\r\n    \"contenido\":\"Este es un texto de prueba viejo\",\r\n    \"publicado\":\"true\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -322,10 +322,264 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actualizar un post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Actualización\",\r\n    \"contenido\": \"Este es un texto de un post modificado\",\r\n    \"descripcion\": \"Prueba de modificación de un post\",\r\n    \"publicado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/post/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener post por título dado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/post/titulo?nombre=Publicación de prueba",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"titulo"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Publicación de prueba"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener post por estado de publicación",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/post/estado?publicado=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"estado"
+							],
+							"query": [
+								{
+									"key": "publicado",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "PeticionesAComentarios",
+			"item": [
+				{
+					"name": "Crear un comentario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"autor\":\"Juan Ruocco\",\r\n    \"comentario\":\"Prueba de creación de otro comentario\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/comentario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"comentario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los comentarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/comentario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"comentario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los comentarios o un límite de ellos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/comentario/cantidad?limit=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"comentario",
+								"cantidad"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar un comentario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/comentario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"comentario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear un comentario dado un usuario por email y un post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"autor\":\"correoelectroni@gmail.com\",\r\n    \"comentario\":\"Prueba de creación de comentario número cuatro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/post/1/comentario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"1",
+								"comentario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar un comentario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comentario\": \"Prueba de creación de un comentario modificado nuevamente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/comentario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"comentario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -70,18 +72,49 @@ public class PostController {
     /*
     CONSULTA - OBTENER TODOS LOS POST QUE CONTENGA UNA PALABRA DADA EN EL TÍTULO --LA PALABRA PUEDE COINCIDIR EN 
     CUALQUIER PARTE DEL TÍTULO
-
-    TRAER TODOS LOS POST SIN PUBLICAR
-
     */
+
+    @GetMapping("/titulo")
+    public ResponseEntity<?> buscarPorTituloDado(@RequestParam String nombre){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(postService.buscarPorTitulo(nombre));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @GetMapping("/estado")
+    public ResponseEntity<?> buscarPorEstadoPublicacion(@RequestParam Boolean publicado){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(postService.buscarPorPublicado(publicado));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    /*
+    TRAER TODOS LOS POST SIN PUBLICAR
+    */
+
+    @PutMapping(path = "/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postId,@RequestBody PostModel post){
+
+        PostModel postExistente = postRepository.getOne(postId);
+        postExistente.setTitulo(post.getTitulo());
+        postExistente.setContenido(post.getContenido());
+        postExistente.setDescripcion(post.getDescripcion());
+        postExistente.setPublicado(post.isPublicado());
+        
+        return new ResponseEntity<>(postRepository.save(post), HttpStatus.OK);
+    }    
 
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id){
         boolean ok = this.postService.eliminarPost(id);
         if(ok){
-            return "Se eliminó el usuario con id " + id;
+            return "Se eliminó el post con id " + id;
         }else {
-            return "No pudo eliminar el usuario con id " + id;
+            return "No pudo eliminar el post con id " + id;
         }
     }
     

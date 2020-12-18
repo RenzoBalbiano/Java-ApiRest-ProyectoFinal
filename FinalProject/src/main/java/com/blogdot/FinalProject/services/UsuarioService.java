@@ -1,8 +1,8 @@
 package com.blogdot.FinalProject.services;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import com.blogdot.FinalProject.DTO.UsuarioDto;
 import com.blogdot.FinalProject.models.UsuarioModel;
 import com.blogdot.FinalProject.repositories.OtroUsuarioRepository;
@@ -26,9 +26,11 @@ public class UsuarioService {
     public ArrayList<UsuarioModel> obtenerTodosUsuarios() {
         return (ArrayList<UsuarioModel>) usuarioRepository.findAll();
     }
+
     public Optional<UsuarioModel> obtenerPorId(Long id){
         return usuarioRepository.findById(id);
     }
+    
     public UsuarioModel getUsuarioByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
