@@ -23,7 +23,7 @@ public class PostService {
 
     public List <PostModel> buscarPorTitulo(String titulo) throws Exception{
         try{
-            List <PostModel> posteos = postRepository.findByTitulo(titulo);
+            List <PostModel> posteos = postRepository.findByTituloContaining(titulo);
             return posteos;
         }catch(Exception e){
             throw new Exception(e.getMessage());

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<PostModel, Long> {
 
-    List<PostModel> findByTitulo(String titulo);
+    List<PostModel> findByTituloContaining(String titulo);
 
     List<PostModel> findByPublicado(Boolean publicado);
 
