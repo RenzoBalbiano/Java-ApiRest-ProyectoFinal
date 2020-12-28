@@ -2,6 +2,8 @@ package com.blogdot.FinalProject.controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import com.blogdot.FinalProject.models.ComentarioModel;
 import com.blogdot.FinalProject.repositories.ComentarioRepository;
 import com.blogdot.FinalProject.services.ComentarioService;
@@ -52,15 +54,26 @@ public class ComentarioController {
         }
     }
 
-    @PutMapping(path = "/{comentarioId}")
-    public ResponseEntity<?> updateComentario(@PathVariable Long comentarioId,@RequestBody ComentarioModel comentario){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateComentario(@PathVariable Long id,@RequestBody ComentarioModel comentarioModificado){
 
-        ComentarioModel comentarioExistente = comentarioRepository.findById(comentarioId).get();;
+        ComentarioModel comentarioExistente;
         
-        comentarioExistente.setComentario(comentario.getComentario());
+        Optional<ComentarioModel> comentarioONull = comentarioRepository.findById(id);
+        
+        if (comentarioONull.isPresent()) {
+            comentarioExistente = comentarioONull.get();
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+        String comentario = comentarioModificado.getComentario();
         
-        return new ResponseEntity<>(comentarioRepository.save(comentario), HttpStatus.OK);
+        if (comentario != null) {
+            comentarioExistente.setComentario(comentario);
+        }
+
+        return new ResponseEntity<>(comentarioRepository.save(comentarioExistente), HttpStatus.OK);
     }    
 
     @DeleteMapping(path = "/{id}")
