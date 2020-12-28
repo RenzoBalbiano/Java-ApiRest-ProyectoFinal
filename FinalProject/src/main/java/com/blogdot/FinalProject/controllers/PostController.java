@@ -73,7 +73,7 @@ public class PostController {
     /*
     CONSULTA - OBTENER TODOS LOS POST QUE CONTENGA UNA PALABRA DADA EN EL TÍTULO --LA PALABRA PUEDE COINCIDIR EN 
     CUALQUIER PARTE DEL TÍTULO
-    */
+    *///
 
     @GetMapping("/titulo")
     public ResponseEntity<?> buscarPorTituloDado(@RequestParam String nombre){

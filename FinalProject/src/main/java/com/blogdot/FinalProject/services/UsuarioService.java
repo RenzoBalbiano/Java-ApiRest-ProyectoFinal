@@ -61,9 +61,4 @@ public class UsuarioService {
         
         return otroUsuarioRepository.getOne(usuarioId);
 	}
-
-	public UsuarioDto actualizarUsuario(UsuarioModel usuarioAdaptado) {
-        
-        return new UsuarioDto(otroUsuarioRepository.save(usuarioAdaptado));
-	}	
 }

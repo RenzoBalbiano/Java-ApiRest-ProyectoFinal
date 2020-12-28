@@ -133,7 +133,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"id\":1,\r\n    \"nombre\": \"Amanda\",\r\n    \"apellido\": \"Muro\",\r\n    \"email\": \"correo@gmail.com\",\r\n    \"fechaDeCreacion\": \"2020-12-18\",\r\n    \"password\": \"holamanola\",\r\n    \"ciudad\": \"Resistencia\",\r\n    \"provincia\": \"Chaco\",\r\n    \"pais\": \"Argentina\"\r\n}",
+							"raw": "{   \r\n    \"nombre\": \"Amanda\",\r\n    \"apellido\": \"Muro\",\r\n    \"email\": \"correo@gmail.com\",\r\n    \"ciudad\": \"Resistencia\",\r\n    \"provincia\": \"Chaco\",\r\n    \"pais\": \"Argentina\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -472,7 +472,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/comentario/cantidad?limit=3",
+							"raw": "http://localhost:8080/api/v1/comentario/filtrarComentariosBlog?id=1&limit=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -482,9 +482,13 @@
 								"api",
 								"v1",
 								"comentario",
-								"cantidad"
+								"filtrarComentariosBlog"
 							],
 							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
 								{
 									"key": "limit",
 									"value": "3"

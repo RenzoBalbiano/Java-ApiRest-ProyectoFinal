@@ -92,26 +92,49 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping(path = "/{usuarioId}")
-    public ResponseEntity<?> updateUsuario(@PathVariable("usuarioId") Long usuarioId,@RequestBody UsuarioModel usuario){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateUsuario(@PathVariable("id") Long id,@RequestBody UsuarioModel usuarioModificado){
 
-        System.out.println("Entró al método");
+        UsuarioModel usuarioExistente;
+        
+        Optional<UsuarioModel> usuarioONull = otroUsuarioRepository.findById(id);
 
-        if(usuario != null){ 
-            System.out.println(usuario.toString());
-            System.out.println(usuarioId);
-        }else{System.out.println("null");
+        if (usuarioONull.isPresent()) {
+            usuarioExistente = usuarioONull.get();
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        UsuarioModel usuarioExistente = otroUsuarioRepository.findById(usuarioId).get();;
-        usuarioExistente.setNombre(usuario.getNombre());
-        usuarioExistente.setApellido(usuario.getApellido());
-        usuarioExistente.setEmail(usuario.getEmail());
-        usuarioExistente.setCiudad(usuario.getCiudad());
-        usuarioExistente.setProvincia(usuario.getProvincia());
-        usuarioExistente.setPais(usuario.getPais());
+        String nombre = usuarioModificado.getNombre();
+        String apellido = usuarioModificado.getApellido();
+        String email = usuarioModificado.getEmail();
+        String ciudad = usuarioModificado.getCiudad();
+        String provincia = usuarioModificado.getProvincia();
+        String pais = usuarioModificado.getPais();
+
+        if (nombre != null) {
+            usuarioExistente.setNombre(nombre);
+        }
+
+        if (apellido != null) {
+            usuarioExistente.setApellido(apellido);
+        }
+
+        if (email != null) {
+            usuarioExistente.setEmail(email);
+        }
+
+        if (ciudad != null) {
+            usuarioExistente.setCiudad(ciudad);
+        }
+        if (provincia != null) {
+            usuarioExistente.setProvincia(provincia);
+        }
+        if (pais != null) {
+            usuarioExistente.setPais(pais);
+        }
         
-        return new ResponseEntity<>(otroUsuarioRepository.save(usuario), HttpStatus.OK);
+        return new ResponseEntity<>(otroUsuarioRepository.save(usuarioExistente), HttpStatus.OK);
     }    
 
     @DeleteMapping(path = "/{id}")
