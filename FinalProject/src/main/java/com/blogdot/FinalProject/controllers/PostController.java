@@ -2,6 +2,7 @@ package com.blogdot.FinalProject.controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.blogdot.FinalProject.DTO.ComentarioDto;
 import com.blogdot.FinalProject.models.ComentarioModel;
@@ -96,16 +97,41 @@ public class PostController {
     TRAER TODOS LOS POST SIN PUBLICAR
     */
 
-    @PutMapping(path = "/{postId}")
-    public ResponseEntity<?> updatePost(@PathVariable Long postId,@RequestBody PostModel post){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id,@RequestBody PostModel postModificado){
 
-        PostModel postExistente = postRepository.getOne(postId);
-        postExistente.setTitulo(post.getTitulo());
-        postExistente.setContenido(post.getContenido());
-        postExistente.setDescripcion(post.getDescripcion());
-        postExistente.setPublicado(post.isPublicado());
+        PostModel postExistente;
         
-        return new ResponseEntity<>(postRepository.save(post), HttpStatus.OK);
+        Optional<PostModel> postONull = postRepository.findById(id);
+
+        if (postONull.isPresent()) {
+            postExistente = postONull.get();
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String titulo = postModificado.getTitulo();
+        String descripcion = postModificado.getDescripcion();
+        String contenido = postModificado.getContenido();
+        Boolean publicado = postModificado.isPublicado();
+
+        if (titulo != null) {
+            postExistente.setTitulo(titulo);
+        }
+
+        if (descripcion != null) {
+            postExistente.setDescripcion(descripcion);
+        }
+
+        if (contenido != null) {
+            postExistente.setContenido(contenido);
+        }
+
+        if (publicado != null) {
+            postExistente.setPublicado(publicado);
+        }
+        
+        return new ResponseEntity<>(postRepository.save(postExistente), HttpStatus.OK);
     }    
 
     @DeleteMapping(path = "/{id}")
