@@ -21,9 +21,9 @@ public class ComentarioService {
         return (ArrayList<ComentarioModel>) comentarioRepository.findAll();
     }
 
-    public List <ComentarioModel> buscarComentariosBajoParametro(Integer cantidad) throws Exception{
+    public List <ComentarioModel> buscarComentariosBajoParametro(Long id, Integer limit) throws Exception{
         try{
-            List <ComentarioModel> comentarios = comentarioRepository.getComentarioPorLimite(cantidad);
+            List <ComentarioModel> comentarios = comentarioRepository.getComentarioPorLimite(id, limit);
             return comentarios;
         }catch(Exception e){
             throw new Exception(e.getMessage());

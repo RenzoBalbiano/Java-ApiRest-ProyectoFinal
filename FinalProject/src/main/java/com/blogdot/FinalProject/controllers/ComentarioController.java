@@ -43,10 +43,10 @@ public class ComentarioController {
     IDEM A #2. SI NO LE PASO EL LIMITE TRAE TODOS. SI LE PASO 3, ME TRAERÁ LOS 3 COMENTARIOS MÁS NUEVO SOLAMENTE.
     */
 
-    @GetMapping("/cantidad")
-    public ResponseEntity<?> buscarPorTituloDado(@RequestParam Integer limit){
+    @GetMapping("/filtrarComentariosBlog")
+    public ResponseEntity<?> buscarPorTituloDado(@RequestParam Long id, Integer limit){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(comentarioService.buscarComentariosBajoParametro(limit));
+            return ResponseEntity.status(HttpStatus.OK).body(comentarioService.buscarComentariosBajoParametro(id,limit));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
